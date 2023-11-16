@@ -2,7 +2,7 @@
 import { SupermarketEntity } from 'src/supermarket/entities/supermarket.entity';
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 
-@Entity()
+@Entity('city')
 export class CityEntity {
   @PrimaryGeneratedColumn()
   id: number;
