@@ -6,8 +6,8 @@ import { CityModule } from './city/city.module';
 import { SupermarketModule } from './supermarket/supermarket.module';
 import { CityMarketModule } from './city-market/city-market.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { CityEntity } from './city/entities/city.entity';
-import { SupermarketEntity } from './supermarket/entities/supermarket.entity';
+import { CityEntity } from './city/entity/city.entity';
+import { SupermarketEntity } from './supermarket/entity/supermarket.entity';
 
 @Module({
   imports: [
