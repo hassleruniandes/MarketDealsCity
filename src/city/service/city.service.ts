@@ -41,7 +41,7 @@ export class CityService {
     return this.getCityById(cityId);
   }
 
-  async deleteCity(cityId: number): Promise<void> {
+  async deleteCity(cityId: string): Promise<void> {
     await this.cityRepository.delete(cityId);
   }
 }

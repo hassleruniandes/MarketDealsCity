@@ -40,7 +40,7 @@ export class SupermarketService {
     return this.getSupermarketById(supermarketId);
   }
 
-  async deleteSupermarket(supermarketId: number): Promise<void> {
+  async deleteSupermarket(supermarketId: string): Promise<void> {
     await this.supermarketRepository.delete(supermarketId);
   }
 }
