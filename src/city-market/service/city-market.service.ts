@@ -4,8 +4,8 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CityEntity } from 'src/city/entity/city.entity';
-import { SupermarketEntity } from 'src/supermarket/entity/supermarket.entity';
+import { CityEntity } from '../../city/entity/city.entity';
+import { SupermarketEntity } from '../../supermarket/entity/supermarket.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()
@@ -17,9 +17,9 @@ export class CityMarketService {
     private supermarketRepository: Repository<SupermarketEntity>,
   ) {}
 
-  async associateSupermarketWithCity(
-    cityId: string,
-    supermarketId: string,
+  async addSupermarketToCity(
+    cityId: number,
+    supermarketId: number,
   ): Promise<CityEntity> {
     const city = await this.cityRepository.findOne({
       where: { id: cityId },
@@ -48,7 +48,7 @@ export class CityMarketService {
     return this.cityRepository.save(city);
   }
 
-  async getSupermarketsInCity(cityId: string): Promise<SupermarketEntity[]> {
+  async findSupermarketsFromCity(cityId: number): Promise<SupermarketEntity[]> {
     const city = await this.cityRepository.findOne({
       where: { id: cityId },
       relations: ['supermarkets'],
@@ -59,9 +59,9 @@ export class CityMarketService {
     return city.supermarkets;
   }
 
-  async getSupermarketInCity(
-    cityId: string,
-    supermarketId: string,
+  async findSupermarketFromCity(
+    cityId: number,
+    supermarketId: number,
   ): Promise<SupermarketEntity> {
     const city = await this.cityRepository.findOne({
       where: { id: cityId },
@@ -72,7 +72,7 @@ export class CityMarketService {
       throw new NotFoundException('City not found');
     }
 
-    const supermarket = city.supermarkets.find((s) => s.id === supermarketId);
+    const supermarket = city.supermarkets.find((s) => s.id == supermarketId);
     if (!supermarket) {
       throw new NotFoundException('Supermarket not found in the city');
     }
@@ -80,37 +80,9 @@ export class CityMarketService {
     return supermarket;
   }
 
-  async disassociateSupermarketFromCity(
-    cityId: string,
-    supermarketId: string,
-  ): Promise<CityEntity> {
-    const city = await this.cityRepository.findOne({
-      where: { id: cityId },
-      relations: ['supermarkets'],
-    });
-
-    if (!city) {
-      throw new NotFoundException('City not found');
-    }
-
-    const supermarket = await this.supermarketRepository.findOne({
-      where: { id: supermarketId },
-    });
-    if (!supermarket) {
-      throw new NotFoundException(
-        `Supermarket con ID ${supermarketId} no encontrado`,
-      );
-    }
-
-    city.supermarkets = city.supermarkets.filter(
-      (s) => s.id !== supermarket.id,
-    );
-    return this.cityRepository.save(city);
-  }
-
   async updateSupermarketsFromCity(
-    cityId: string,
-    supermarketIds: string[],
+    cityId: number,
+    supermarketIds: number[],
   ): Promise<CityEntity> {
     const city = await this.cityRepository.findOne({
       where: { id: cityId },
@@ -135,8 +107,8 @@ export class CityMarketService {
   }
 
   async deleteSupermarketFromCity(
-    cityId: string,
-    supermarketId: string,
+    cityId: number,
+    supermarketId: number,
   ): Promise<CityEntity> {
     const city = await this.cityRepository.findOne({
       where: { id: cityId },
@@ -151,7 +123,7 @@ export class CityMarketService {
     });
     if (!supermarketToRemove) {
       throw new NotFoundException(
-        `Supermarket con ID ${supermarketId} no encontrado`,
+        `The supermarket with the given id was not found`,
       );
     }
 

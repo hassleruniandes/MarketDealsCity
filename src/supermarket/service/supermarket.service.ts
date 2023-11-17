@@ -1,9 +1,9 @@
-// supermarket.service.ts
-
-import { BadRequestException, Injectable, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { SupermarketEntity } from '../entity/supermarket.entity';
+import { CreateSupermarketDto } from '../dto/create-supermarket.dto';
+import { UpdateSupermarketDto } from '../dto/update-supermarket.dto';
 
 @Injectable()
 export class SupermarketService {
@@ -12,7 +12,7 @@ export class SupermarketService {
     private readonly supermarketRepository: Repository<SupermarketEntity>,
   ) {}
 
-  async createSupermarket(supermarketData: Partial<SupermarketEntity>): Promise<SupermarketEntity> {
+  async createSupermarket(supermarketData: CreateSupermarketDto): Promise<SupermarketEntity> {
     if (supermarketData.name.length <= 10) {
       throw new BadRequestException('El nombre del supermercado debe tener más de 10 caracteres');
     }
@@ -24,15 +24,15 @@ export class SupermarketService {
     return this.supermarketRepository.find();
   }
 
-  async getSupermarketById(id: string): Promise<SupermarketEntity> {
+  async getSupermarketById(id: number): Promise<SupermarketEntity> {
     const supermarket = await this.supermarketRepository.findOne({ where: { id: id } });
     if (!supermarket) {
-      throw new NotFoundException(`Supermarket con ID ${id} no encontrado`);
+      throw new BadRequestException(`Supermarket con ID ${id} no encontrado`);
     }
     return supermarket; 
   }
 
-  async updateSupermarket(supermarketId: string, supermarketData: Partial<SupermarketEntity>): Promise<SupermarketEntity> {
+  async updateSupermarket(supermarketId: number, supermarketData: UpdateSupermarketDto): Promise<SupermarketEntity> {
     if (supermarketData.name && supermarketData.name.length <= 10) {
       throw new BadRequestException('El nombre del supermercado debe tener más de 10 caracteres');
     }
@@ -40,7 +40,11 @@ export class SupermarketService {
     return this.getSupermarketById(supermarketId);
   }
 
-  async deleteSupermarket(supermarketId: string): Promise<void> {
+  async deleteSupermarket(supermarketId: number): Promise<void> {
+    const supermarket = await this.supermarketRepository.findOne({ where: { id: supermarketId } });
+    if (!supermarket) {
+      throw new BadRequestException(`Supermarket con ID ${supermarketId} no encontrado`);
+    }
     await this.supermarketRepository.delete(supermarketId);
   }
 }

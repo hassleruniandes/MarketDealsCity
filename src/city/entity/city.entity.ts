@@ -1,30 +1,27 @@
+import { SupermarketEntity } from '../../supermarket/entity/supermarket.entity';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from 'typeorm';
 
-import { SupermarketEntity } from 'src/supermarket/entity/supermarket.entity';
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+export const Country = {
+  ARGENTINA: 'Argentina',
+  ECUADOR: 'Ecuador',
+  PARAGUAY: 'Paraguay',
+};
 
-export enum Country {
-  ARGENTINA = 'Argentina',
-  ECUADOR = 'Ecuador',
-  PARAGUAY = 'Paraguay',
-}
-
-@Entity('city')
+@Entity('cities')
 export class CityEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column()
   name: string;
 
-  @Column({
-    type: 'enum',
-    enum: Country,
-  })
-  country: Country;
+  @Column()
+  country: string;
 
   @Column()
   population: number;
 
-  @OneToMany(() => SupermarketEntity, (supermarket) => supermarket.cities)
+  @ManyToMany(() => SupermarketEntity, supermercado => supermercado.cities)
+  @JoinTable({ name: 'city_supermarket' })
   supermarkets: SupermarketEntity[];
 }

@@ -1,6 +1,8 @@
 import { Controller, Get, Post, Put, Delete, Param, Body } from '@nestjs/common';
 import { CityEntity } from '../entity/city.entity';
 import { CityService } from '../service/city.service';
+import { CreateCityDto } from '../dto/create-city.dto';
+import { UpdateCityDto } from '../dto/update-city.dto';
 
 @Controller('ciudades')
 export class CityController {
@@ -12,22 +14,22 @@ export class CityController {
   }
 
   @Get(':id')
-  findOneCity(@Param('id') id: string): Promise<CityEntity> {
+  findOneCity(@Param('id') id: number): Promise<CityEntity> {
     return this.cityService.getCityById(id);
   }
 
   @Post()
-  createCity(@Body() cityData: Partial<CityEntity>): Promise<CityEntity> {
+  createCity(@Body() cityData: CreateCityDto): Promise<CityEntity> {
     return this.cityService.createCity(cityData);
   }
 
   @Put(':id')
-  updateCity(@Param('id') cityId: string, @Body() cityData: Partial<CityEntity>): Promise<CityEntity> {
+  updateCity(@Param('id') cityId: number, @Body() cityData: UpdateCityDto): Promise<CityEntity> {
     return this.cityService.updateCity(cityId, cityData);
   }
 
   @Delete(':id')
-  deleteCity(@Param('id') cityId: string): Promise<void> {
+  deleteCity(@Param('id') cityId: number): Promise<void> {
     return this.cityService.deleteCity(cityId);
   }
 }

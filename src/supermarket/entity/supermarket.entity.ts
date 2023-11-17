@@ -1,12 +1,12 @@
 
-import { CityEntity } from 'src/city/entity/city.entity';
+import { CityEntity } from '../../city/entity/city.entity';
 import { Entity, PrimaryGeneratedColumn, Column, ManyToMany, JoinTable } from 'typeorm';
 
 
-@Entity('supermarket')
+@Entity('supermarkets')
 export class SupermarketEntity {
-  @PrimaryGeneratedColumn('uuid')
-  id: string;
+  @PrimaryGeneratedColumn()
+  id: number;
 
   @Column()
   name: string;
@@ -21,6 +21,6 @@ export class SupermarketEntity {
   website: string;
 
   @ManyToMany(() => CityEntity, (city) => city.supermarkets)
-  @JoinTable({ name: 'supermarket_city' })
   cities: CityEntity[];
+  
 }

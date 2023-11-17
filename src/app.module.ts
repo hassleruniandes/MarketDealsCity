@@ -26,7 +26,7 @@ import { SupermarketEntity } from './supermarket/entity/supermarket.entity';
         CityEntity,
         SupermarketEntity
       ],
-      dropSchema: false,
+      dropSchema: true,
       synchronize: true,
       keepConnectionAlive: true,
     }),
