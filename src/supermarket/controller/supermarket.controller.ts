@@ -5,7 +5,7 @@ import { SupermarketService } from '../service/supermarket.service';
 import { CreateSupermarketDto } from '../dto/create-supermarket.dto';
 import { UpdateSupermarketDto } from '../dto/update-supermarket.dto';
 
-@Controller('supermercados')
+@Controller('supermarkets')
 export class SupermarketController {
   constructor(private readonly supermarketService: SupermarketService) {}
 

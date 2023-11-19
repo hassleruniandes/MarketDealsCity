@@ -3,7 +3,7 @@ import { CityMarketService } from '../service/city-market.service';
 import { SupermarketEntity } from '../../supermarket/entity/supermarket.entity';
 import { CityEntity } from '../../city/entity/city.entity';
 
-@Controller('ciudades/:cityId/supermercados')
+@Controller('cities/:cityId/supermarkets')
 export class CityMarketController {
   constructor(private readonly cityMarketService: CityMarketService) {}
 
